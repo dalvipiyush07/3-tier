@@ -9,7 +9,9 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/dalvipiyush07/ansible-3-tier-project.git'
+                git url: 'git@github.com:dalvipiyush07/ansible-3-tier-project.git',
+                    branch: 'main',
+                    credentialsId: 'ansible-key'
             }
         }
 

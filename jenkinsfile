@@ -47,8 +47,8 @@ pipeline {
         stage('Generate Inventory & Deploy') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'WEB_SERVER_IP', variable: '10.0.26.101'),
-                    string(credentialsId: 'APP_SERVER_IP', variable: '10.0.24.77'),
+                    string(credentialsId: 'WEB_SERVER_IP', variable: 'WEB_SERVER_IP'),
+                    string(credentialsId: 'APP_SERVER_IP', variable: 'APP_SERVER_IP'),
                 ]) {
                     sh '''
                         export SSH_KEY_PATH=~/.ssh/id_rsa

@@ -1,6 +1,6 @@
 # ---------------- Web Server ----------------
 - name: Install nginx and deploy web files
-  hosts: webserver
+  hosts: web
   become: yes
 
   vars:

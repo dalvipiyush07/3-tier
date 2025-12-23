@@ -1,6 +1,6 @@
 ---
 - name: Configure App Server (Nginx + PHP + MySQL)
-  hosts: appserver
+  hosts: app
   become: yes
 
   tasks:

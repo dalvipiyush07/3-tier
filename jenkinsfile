@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        ANSIBLE_HOST_KEY_CHECKING = "False"
+        REMOTE_USER = "ec2-user"
+        REMOTE_HOST = "3.110.121.35"
+        CRED_ID     = "ansible-key"
     }
 
     stages {
@@ -10,9 +12,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git url: 'git@github.com:dalvipiyush07/ansible-3-tier-project.git',
-                    branch: 'main',
-                    credentialsId: 'ansible-key'
-            }
+                    branch: 'main',            }
         }
 
         stage('Install Ansible on Jenkins Node') {
@@ -46,8 +46,8 @@ pipeline {
         stage('Generate Inventory & Deploy') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'WEB_SERVER_IP', variable: 'WEB_SERVER_IP'),
-                    string(credentialsId: 'APP_SERVER_IP', variable: 'APP_SERVER_IP')
+                    string(credentialsId: 'WEB_SERVER_IP', variable: '10.0.26.101'),
+                    string(credentialsId: 'APP_SERVER_IP', variable: '10.0.24.77'),
                 ]) {
                     sh '''
                         export SSH_KEY_PATH=~/.ssh/id_rsa

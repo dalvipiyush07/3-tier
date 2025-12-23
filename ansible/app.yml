@@ -1,33 +1,33 @@
----
-- name: Configure App Server (Nginx + PHP + MySQL)
+# ---------------- App Server ----------------
+- name: Configure App Server (Nginx + PHP + MariaDB)
   hosts: app
   become: yes
 
   tasks:
-    - name: Install Nginx, PHP, PHP-FPM, MySQL Server
+    - name: Install Nginx, PHP, PHP-FPM, MariaDB
       ansible.builtin.dnf:
         name:
           - nginx
           - php
           - php-fpm
           - php-mysqlnd
-          - mysql-server
+          - mariadb105-server
         state: present
 
     - name: Start and enable Nginx
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd:
         name: nginx
         state: started
         enabled: yes
 
     - name: Start and enable PHP-FPM
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd:
         name: php-fpm
         state: started
         enabled: yes
 
-    - name: Start and enable MySQL
-      ansible.builtin.systemd_service:
+    - name: Start and enable MariaDB
+      ansible.builtin.systemd:
         name: mysqld
         state: started
         enabled: yes
@@ -42,7 +42,7 @@
 
     - name: Deploy PHP backend file
       ansible.builtin.copy:
-        src: ../website/api.php
+        src: website/api.php
         dest: /var/www/html/api.php
         owner: nginx
         group: nginx

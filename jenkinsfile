@@ -6,8 +6,9 @@ pipeline {
         ANSIBLE_HOST = "3.111.52.174"
     }
 
-    stages {
-        stage('Run Ansible from Remote Server') {
+     stages {
+
+        stage('Run Ansible via Ansible Server') {
             steps {
                 withCredentials([
                     sshUserPrivateKey(
@@ -16,15 +17,48 @@ pipeline {
                     )
                 ]) {
                     sh '''
-                        chmod 600 $SSH_KEY
+                        set -e
 
                         ssh -o StrictHostKeyChecking=no \
-                            -i $SSH_KEY \
-                            ${ANSIBLE_USER}@${ANSIBLE_HOST} << 'EOF'
+                           -i $SSH_KEY \
+                           ec2-user@3.111.52.174 << 'EOF'
 
-                        cd /home/ec2-user/ansible
+                        echo "=== Connected to Ansible Server ==="
+
+                        # 1️⃣ Clone or update GitHub repo
+                        cd /home/ec2-user
+                        if [ ! -d 3-tier ]; then
+                            git clone https://github.com/dalvipiyush07/3-tier.git
+                        else
+                            cd 3-tier
+                            git pull
+                            cd ..
+                        fi
+
+                        # 2️⃣ Prepare Ansible playbook directory
+                        sudo mkdir -p /etc/ansible/playbook
+                        sudo chown ec2-user:ec2-user /etc/ansible/playbook
+
+                        # 3️⃣ Copy playbooks & inventory from repo
+                        cp 3-tier/ansible/inventory.ini /etc/ansible/playbook/
+                        cp 3-tier/ansible/web.yml /etc/ansible/playbook/
+                        cp 3-tier/ansible/app.yml /etc/ansible/playbook/
+
+                        cd /etc/ansible/playbook
+                        echo "=== Files in playbook directory ==="
+                        ls -l
+
+                        # 4️⃣ Syntax check
+                        echo "=== Syntax check ==="
+                        ansible-playbook --syntax-check -i inventory.ini web.yml
+                        ansible-playbook --syntax-check -i inventory.ini app.yml
+
+                        # 5️⃣ Run playbooks
+                        echo "=== Running playbooks ==="
                         ansible-playbook -i inventory.ini web.yml
                         ansible-playbook -i inventory.ini app.yml
+
+                        echo "=== Ansible Execution Completed ==="
 
                         EOF
                     '''

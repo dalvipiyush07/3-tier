@@ -20,9 +20,26 @@ Terraform was used to provision a **3-tier AWS infrastructure** in a fully autom
   - App Server EC2 instance
   - Security Groups for controlled access
 - Terraform ensures consistency, scalability, and easy re-creation of infrastructure
+## Terrform
 
----
 ![](./img/terraform.png)
+
+## Ec2
+
+![](./img/ec2.png)
+
+## VPC 
+
+![](./img/vpc.png)
+
+## RDS 
+
+![](./img/rds.png)
+
+## S3
+
+![](./img/s3.png)
+
 
 ## Step 2: Configuration Management with Ansible
 Once infrastructure was ready, Ansible was used to configure the servers from a dedicated Ansible control node.

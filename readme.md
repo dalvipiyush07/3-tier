@@ -163,6 +163,3 @@ GitHub: https://www.linkedin.com/in/piyush-dalvi-5b1499382?utm_source=share&utm_
 
 Medium: https://medium.com/@piyushdalvi65
 ---
-
-## Acknowledgement
-Completed under the guidance of respected mentors.

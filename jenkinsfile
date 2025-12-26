@@ -13,7 +13,7 @@ pipeline {
                     sh '''
 set -e
 
-ssh -o StrictHostKeyChecking=no -i $SSH_KEY ec2-user@3.111.52.174 <<EOF
+ssh -o StrictHostKeyChecking=no -i $SSH_KEY ec2-user@13.203.101.49 <<EOF
 echo "=== Connected to Ansible Server ==="
 
 # Go to repo directory
